@@ -18,14 +18,37 @@
         .form input{padding:8px;border:1px solid #ddd;border-radius:4px}
         button{background:#007bff;color:#fff;border:none;padding:10px 20px;border-radius:5px;cursor:pointer}
         button:hover{background:#0056b3}
+
+        /* Dark mode styles */
+        body[data-bs-theme="dark"] {
+            background: #181a1b;
+            color: #f0f0f0;
+        }
+        body[data-bs-theme="dark"] .card {
+            background: #23272b;
+            color: #f0f0f0;
+        }
+        body[data-bs-theme="dark"] .item {
+            background: #222;
+            color: #f0f0f0;
+        }
+        body[data-bs-theme="dark"] .logs {
+            background: #111;
+            color: #b8ffb8;
+        }
+        body[data-bs-theme="dark"] input,
+        body[data-bs-theme="dark"] button {
+            background: #23272b;
+            color: #f0f0f0;
+            border-color: #444;
+        }
     </style>
 </head>
-<body>
+<body data-bs-theme="dark">
     <div class="container">
         <div class="header">
             <h1>Inverter Battery Bridge</h1>
             <div class="header-links">
-                <a href="/update" class="update-link">Update Interface</a>
                 <div class="form-check form-switch" style="margin-left: 1em;">
                     <input class="form-check-input" type="checkbox" id="themeSwitch">
                     <label class="form-check-label" for="themeSwitch">Dark Mode</label>
@@ -107,8 +130,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Theme switching
+        // Theme switching with persistence
         const themeSwitch = document.getElementById('themeSwitch');
+        // Load theme from localStorage or default to dark
+        // Set dark mode as default
+        themeSwitch.checked = true;
+        document.body.setAttribute('data-bs-theme', 'dark');
         themeSwitch.addEventListener('change', () => {
             document.body.setAttribute('data-bs-theme', themeSwitch.checked ? 'dark' : 'light');
         });

@@ -779,6 +779,34 @@ void setupWebServer() {
     req->send(200,"application/json", out);
   });
 
+  server.on("/upload", HTTP_POST, [](AsyncWebServerRequest *request) {
+    request->send(200, "text/plain", "OK");
+  }, [](AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {
+    if (!index) {
+      Serial.printf("Upload Start: %s\n", filename.c_str());
+      // Open the file for writing
+      File f = LittleFS.open("/" + filename, "w");
+      if (!f) {
+        Serial.println("Failed to open file for writing");
+        return;
+      }
+      f.write(data, len);
+      f.close();
+    } else {
+      // Append data to the file
+      File f = LittleFS.open("/" + filename, "a");
+      if (!f) {
+        Serial.println("Failed to open file for appending");
+        return;
+      }
+      f.write(data, len);
+      f.close();
+    }
+    if (final) {
+      Serial.printf("Upload End: %s, %u bytes\n", filename.c_str(), index + len);
+    }
+  });
+
   server.serveStatic("/", LittleFS, "/").setDefaultFile("index.html");
   server.onNotFound([](AsyncWebServerRequest *req){ 
     req->send(404,"text/plain","Not Found"); 
