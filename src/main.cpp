@@ -299,10 +299,10 @@ float readPowerVoltage();
 // =============================================================================
 String getSystemStatus() {
   StaticJsonDocument<384> doc;
-  doc["voltage"]        = isnan(bmsData.voltage) ? nullptr : bmsData.voltage;
-  doc["current"]        = isnan(bmsData.current) ? nullptr : bmsData.current;
-  doc["soc"]            = (bmsData.soc == 255) ? nullptr : bmsData.soc;
-  doc["temperature"]    = (bmsData.temperature == -128) ? nullptr : bmsData.temperature;
+  if (isnan(bmsData.voltage)) doc["voltage"].set(nullptr); else doc["voltage"] = bmsData.voltage;
+  if (isnan(bmsData.current)) doc["current"].set(nullptr); else doc["current"] = bmsData.current;
+  if (bmsData.soc == 255) doc["soc"].set(nullptr); else doc["soc"] = bmsData.soc;
+  if (bmsData.temperature == -128) doc["temperature"].set(nullptr); else doc["temperature"] = bmsData.temperature;
   doc["chargeEnabled"]  = bmsData.chargeEnabled;
   doc["dischargeEnabled"] = bmsData.dischargeEnabled;
   doc["wifiConnected"]  = (WiFi.status() == WL_CONNECTED);
