@@ -807,6 +807,14 @@ void setupWebServer() {
     }
   });
 
+  server.on("/config.json", HTTP_GET, [](AsyncWebServerRequest *req){
+    if (!LittleFS.exists("/config.json")) {
+      req->send(404, "text/plain", "Config file not found");
+      return;
+    }
+    req->send(LittleFS, "/config.json", "application/json");
+  });
+
   server.serveStatic("/", LittleFS, "/").setDefaultFile("index.html");
   server.onNotFound([](AsyncWebServerRequest *req){ 
     req->send(404,"text/plain","Not Found"); 
