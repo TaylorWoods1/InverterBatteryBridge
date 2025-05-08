@@ -42,6 +42,75 @@
             color: #f0f0f0;
             border-color: #444;
         }
+
+        /* Modern dark mode polish for cards, forms, and inputs */
+        body[data-bs-theme="dark"] .card {
+            background: #23272b;
+            color: #f0f0f0;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.25), 0 1.5px 4px 0 rgba(0,0,0,0.10);
+            border: 1px solid #333;
+        }
+        body[data-bs-theme="dark"] .form label,
+        body[data-bs-theme="dark"] .update-form label {
+            color: #e0e0e0;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.01em;
+        }
+        body[data-bs-theme="dark"] .form input[type="number"],
+        body[data-bs-theme="dark"] .form input[type="text"],
+        body[data-bs-theme="dark"] .update-form input[type="file"] {
+            background: #181a1b;
+            color: #f0f0f0;
+            border: 1.5px solid #444;
+            border-radius: 7px;
+            padding: 10px 12px;
+            margin-bottom: 2px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.10);
+        }
+        body[data-bs-theme="dark"] .form input[type="number"]:focus,
+        body[data-bs-theme="dark"] .form input[type="text"]:focus,
+        body[data-bs-theme="dark"] .update-form input[type="file"]:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 2px rgba(13,110,253,0.15);
+            outline: none;
+        }
+        body[data-bs-theme="dark"] .form .form-text,
+        body[data-bs-theme="dark"] .update-form .form-text {
+            color: #b0b0b0;
+        }
+        body[data-bs-theme="dark"] .form button,
+        body[data-bs-theme="dark"] .update-form button {
+            background: linear-gradient(90deg, #0d6efd 60%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            box-shadow: 0 2px 8px 0 rgba(13,110,253,0.10);
+            font-weight: 600;
+            font-size: 1.08rem;
+            padding: 10px 0;
+            margin-top: 18px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        body[data-bs-theme="dark"] .form button:hover,
+        body[data-bs-theme="dark"] .update-form button:hover {
+            background: linear-gradient(90deg, #2563eb 60%, #0d6efd 100%);
+            box-shadow: 0 4px 16px 0 rgba(13,110,253,0.18);
+        }
+        body[data-bs-theme="dark"] .form,
+        body[data-bs-theme="dark"] .update-form {
+            margin-top: 24px;
+            gap: 22px;
+        }
+        body[data-bs-theme="dark"] .form input[type="checkbox"] {
+            accent-color: #0d6efd;
+        }
+        body[data-bs-theme="dark"] .form .error,
+        body[data-bs-theme="dark"] .update-form .error {
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body data-bs-theme="dark">
