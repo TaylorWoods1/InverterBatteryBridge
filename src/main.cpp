@@ -220,11 +220,11 @@ Config config = {
 };
 
 struct BMSData {
-  float   voltage      = 48.0f;
-  float   current      = 0.0f;
-  uint8_t soc          = 50;
-  int8_t  temperature  = 25;
-  float   power        = 0.0f;
+  float   voltage      = NAN;
+  float   current      = NAN;
+  uint8_t soc          = 255; // 255 = invalid
+  int8_t  temperature  = -128; // -128 = invalid
+  float   power        = NAN;
   uint32_t lastUpdate  = 0;
   bool    chargeEnabled    = true;
   bool    dischargeEnabled = true;
@@ -299,10 +299,10 @@ float readPowerVoltage();
 // =============================================================================
 String getSystemStatus() {
   StaticJsonDocument<384> doc;
-  doc["voltage"]        = bmsData.voltage;
-  doc["current"]        = bmsData.current;
-  doc["soc"]            = bmsData.soc;
-  doc["temperature"]    = bmsData.temperature;
+  doc["voltage"]        = isnan(bmsData.voltage) ? nullptr : bmsData.voltage;
+  doc["current"]        = isnan(bmsData.current) ? nullptr : bmsData.current;
+  doc["soc"]            = (bmsData.soc == 255) ? nullptr : bmsData.soc;
+  doc["temperature"]    = (bmsData.temperature == -128) ? nullptr : bmsData.temperature;
   doc["chargeEnabled"]  = bmsData.chargeEnabled;
   doc["dischargeEnabled"] = bmsData.dischargeEnabled;
   doc["wifiConnected"]  = (WiFi.status() == WL_CONNECTED);

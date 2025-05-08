@@ -102,10 +102,10 @@
             fetch('/api/status')
                 .then(r=>r.json())
                 .then(d=>{
-                    document.getElementById('voltage').textContent=d.voltage.toFixed(1)+'V';
-                    document.getElementById('current').textContent=d.current.toFixed(1)+'A';
-                    document.getElementById('soc').textContent=d.soc+'%';
-                    document.getElementById('temperature').textContent=d.temperature+'°C';
+                    document.getElementById('voltage').textContent = (typeof d.voltage === 'number' && !isNaN(d.voltage)) ? d.voltage.toFixed(1)+'V' : '--';
+                    document.getElementById('current').textContent = (typeof d.current === 'number' && !isNaN(d.current)) ? d.current.toFixed(1)+'A' : '--';
+                    document.getElementById('soc').textContent = (typeof d.soc === 'number' && !isNaN(d.soc)) ? d.soc+'%' : '--';
+                    document.getElementById('temperature').textContent = (typeof d.temperature === 'number' && !isNaN(d.temperature)) ? d.temperature+'°C' : '--';
                 });
         }
 
@@ -123,11 +123,11 @@
             fetch('/api/config')
                 .then(r=>r.json())
                 .then(d=>{
-                    document.getElementById('batteryCapacity').value=d.batteryCapacity;
-                    document.getElementById('moduleCount').value=d.moduleCount;
-                    document.getElementById('canInterval').value=d.canInterval;
-                    document.getElementById('canId').value='0x'+d.canId.toString(16).toUpperCase();
-                    document.getElementById('alarmEnabled').checked=d.alarmEnabled;
+                    document.getElementById('batteryCapacity').value = (typeof d.batteryCapacity === 'number' && !isNaN(d.batteryCapacity)) ? d.batteryCapacity : '';
+                    document.getElementById('moduleCount').value = (typeof d.moduleCount === 'number' && !isNaN(d.moduleCount)) ? d.moduleCount : '';
+                    document.getElementById('canInterval').value = (typeof d.canInterval === 'number' && !isNaN(d.canInterval)) ? d.canInterval : '';
+                    document.getElementById('canId').value = (typeof d.canId === 'number' && !isNaN(d.canId)) ? '0x'+d.canId.toString(16).toUpperCase() : '';
+                    document.getElementById('alarmEnabled').checked = !!d.alarmEnabled;
                 });
         }
 
