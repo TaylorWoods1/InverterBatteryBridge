@@ -697,8 +697,34 @@ void setupWebServer() {
     req->send(200,"application/json", getSystemConfig()); 
   });
   
-  server.on("/api/config", HTTP_POST, [](AsyncWebServerRequest *req){ 
-    req->send(200,"application/json","{\"status\":\"success\"}"); 
+  server.on("/api/config", HTTP_POST, [](AsyncWebServerRequest *req){}, NULL,
+    [](AsyncWebServerRequest *req, uint8_t *data, size_t len, size_t index, size_t total) {
+      StaticJsonDocument<384> doc;
+      DeserializationError error = deserializeJson(doc, data, len);
+      if (!error) {
+        config.batteryCapacity = doc["batteryCapacity"] | config.batteryCapacity;
+        config.moduleCount = doc["moduleCount"] | config.moduleCount;
+        config.canInterval = doc["canInterval"] | config.canInterval;
+        config.alarmEnabled = doc["alarmEnabled"] | config.alarmEnabled;
+        config.canId = doc["canId"] | config.canId;
+        saveConfig();
+        req->send(200, "application/json", "{\"success\":true}");
+      } else {
+        req->send(400, "application/json", "{\"success\":false,\"error\":\"Invalid JSON\"}");
+      }
+    }
+  );
+
+  server.on("/api/logs", HTTP_GET, [](AsyncWebServerRequest *req){
+    String logs = "";
+    int idx = logIndex;
+    for (int i = 0; i < LOG_BUFFER_SIZE; i++) {
+      int j = (idx + i) % LOG_BUFFER_SIZE;
+      if (logBuffer[j].length() > 0) {
+        logs += logBuffer[j] + "\n";
+      }
+    }
+    req->send(200, "text/plain", logs);
   });
 
   server.on("/metrics", HTTP_GET, [](AsyncWebServerRequest *req){
